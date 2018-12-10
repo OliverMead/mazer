@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "main.h"
 
 int main(void) {
@@ -19,7 +20,7 @@ int main(void) {
 	
 	node node2;
 	initNode(&node2, 2, 0, 1, &myNode, NULL, NULL, NULL);
-	//printf("Distance: %i\n", distBetween(&myNode, &node2)); 
+	//printf("Distance: %d\n", distBetween(&myNode, &node2)); 
 	tree myTree;
 	makeTree(&myTree, &myNode, &node2);
 	printf("Distance: %i\n", distBetween(myTree.start, myTree.end));
@@ -33,13 +34,10 @@ void makeTree( tree* theNode,
 	theNode->start = start;
 	theNode->end = end;
 }
-void initNode(
-		node* theNode, unsigned char type,
+void initNode(	node* theNode, unsigned char type,
 		unsigned short x, unsigned short y,
 		node* up, node* down, 
-		node* left, node* right 
-	     ) 
-{
+		node* left, node* right ) {
 	theNode->type = type;
 	theNode->x = x;
 	theNode->y = y;
@@ -49,13 +47,13 @@ void initNode(
 	theNode->right = right;
 }
 
-int distBetween(node* node1, node* node2) {
+double distBetween(node* node1, node* node2) {
 	// the distance between two nodes 
 	// (in this case dx + dy because the nodes 
 	// exist only on a grid)
-	unsigned int dist;
+	double theDist;
 	int dx = node2->x - node1->x;
 	int dy = node2->y - node1->y;
-	dist = abs(dx) + abs(dy);
-	return dist;
+	theDist = sqrt(dx*dx+dy*dy);
+	return theDist;
 }

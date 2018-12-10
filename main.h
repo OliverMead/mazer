@@ -2,6 +2,7 @@
 #define MAIN_HEADER
 
 typedef struct Node node;
+typedef struct Tree tree;
 
 struct Node {
 	 // type - (0 : start) (1 : any) (2 : end)
@@ -14,7 +15,6 @@ struct Node {
 	node* right;
 };
 
-typedef struct Tree tree;
 
 struct Tree {
 	node* start;
@@ -40,6 +40,6 @@ void initNode
 	node*
 );
 
-int distBetween(node*, node*);
+double distBetween(node*, node*);
 
 #endif
