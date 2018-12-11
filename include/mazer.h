@@ -2,6 +2,7 @@
 #define MAIN_HEADER
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 void makeTree
@@ -21,6 +22,11 @@ void initNode
 	node*,
 	node*,
 	node*
+);
+
+void initNodes
+( 
+ 	node** theNodes
 );
 
 double distBetween(node*, node*);
