@@ -5,7 +5,7 @@ CFLAGS=-I$(IDIR)
 ODIR=obj
 LDIR =../lib
 
-LIBS=-lm
+LIBS=-lm -lbsd
 
 _DEPS = mazer.h test.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -14,7 +14,7 @@ _OBJ = mazer.o test.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(CFLAGS) $(LIBS)
 
 mazer: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)

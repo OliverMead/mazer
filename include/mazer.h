@@ -29,6 +29,16 @@ void initNodes
  	node** theNodes
 );
 
+void makeNodes
+(
+ 	node**, 
+	unsigned short ptsQty, 
+	unsigned short offset,
+	unsigned short points[ptsQty][2]
+);
+
+void findLinks ( node* );
+
 double distBetween(node*, node*);
 
 void testNodes();

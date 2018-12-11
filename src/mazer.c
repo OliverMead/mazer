@@ -2,16 +2,54 @@
 #include <mazer.h>
 #include <test.h>
 
+node* nodes;
+tree theTree;
+unsigned short qty;
+unsigned short start[2];
+unsigned short end[2];
+
+unsigned short points[][2] = 
+	{{ 2,0 },
+	 { 0,1 },
+	 { 2,1 }};
+unsigned short ptsQty = 3;
+
 int main(void) {
 	//testNodes();
 	
-	node* theNodes;
-	initNodes(&theNodes);
-	unsigned short x_start = 15;
-	unsigned short y_start = 12;
-	initNode(&theNodes[0], 0, x_start, y_start, NULL, NULL, NULL, NULL);
+	// The layout of this test:
+	// s x n
+	// n x n
+	// x x e
 	
-	printf("The first node is at (%i,%i)\n", theNodes[0].x, theNodes[0].y);
+	// initialise the array of nodes
+	initNodes(&nodes);
+	qty = 2;
+
+	// start and end points
+	start[0] =  0;
+	start[1] = 0;
+	end[0] =  2;
+	end[1] = 2;
+	
+	// initialise the start and end points
+	initNode(&nodes[0], 0, start[0], start[1], NULL, NULL, NULL, NULL);
+	initNode(&nodes[1], 2,   end[0],   end[1], NULL, NULL, NULL, NULL);
+	
+	// make the tree with the first 2 elements of nodes, 
+	makeTree(&theTree, &nodes[0], &nodes[1]);
+	
+	// printf("The first node is at (%i,%i)\n", theTree.start->x, theTree.start->y);
+	// printf("The size of nodes is %i\n", sizeof(nodes));
+	reallocarray(nodes, 5, sizeof(node) * 5); 
+
+	initNode(&nodes[2], 1, 2, 0, NULL, &nodes[4], theTree.start, NULL);
+	initNode(&nodes[3], 1, 0, 1, theTree.start, NULL, NULL, &nodes[4]);
+	initNode(&nodes[4], 1, 2, 1, &nodes[2], theTree.end, &nodes[3], NULL);
+	qty = 5;
+
+	makeNodes(&nodes, ptsQty, 0, points);
+	printNodes(&nodes, qty);
 
 	return 0;
 }
@@ -43,6 +81,27 @@ void initNodes( node** theNodes ) {
 	}
 	memset(*theNodes, 0, sizeof(node) * num);
 }
+
+void makeNodes( node** nodesPtr, unsigned short ptsQty, 
+		unsigned short offset, unsigned short points[ptsQty][2] ) {
+	if(offset == ptsQty) {
+		return;
+	}
+	reallocarray(*nodesPtr, (qty+offset), sizeof(node)*(qty+offset));
+
+	initNode(nodesPtr[qty+offset], 1, 
+			points[offset][0], 
+			points[offset][1],
+			NULL, NULL, NULL, NULL );
+
+	findLinks(nodesPtr[qty+offset]);
+	makeNodes(nodesPtr, ptsQty, offset + 1, points);
+}
+
+void findLinks( node* node ) {
+	return;
+}
+
 
 double distBetween(node* node1, node* node2) {
 	// the distance between two nodes 
