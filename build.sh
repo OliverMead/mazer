@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd src
-make
+make $1
 cd ..
 mv src/mazer ./bin
