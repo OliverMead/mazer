@@ -11,7 +11,8 @@ struct Matrix {
 	int rows;
 	int cols;
 	unsigned char* data;
-}
+};
+
 struct Node {
 	 // type - (0 : start) (1 : any) (2 : end)
 	unsigned char type : 2;

@@ -10,7 +10,7 @@ LIBS=-lbsd -lm
 _DEPS = mazer.h test.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = mazer.o nodes.o test.o 
+_OBJ = mazer.o nodes.o test.o globals.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)
