@@ -6,46 +6,24 @@
 #include <math.h>
 #include <assert.h>
 
-void makeTree
-(
- 	tree*,
-	node*,
-	node*
-);
+void makeTree ( tree*, node*, node*);
 
 void initNode 
-(
-	node*,
-	unsigned char,
-	unsigned short,
-	unsigned short,
-	node*,
-	node*,
-	node*,
-	node*
-);
+( node*, unsigned char, unsigned short, 
+  unsigned short, node*, node*, node*, node* );
 
-void initNodes
-( 
- 	node** theNodes
-);
+void initNodes ( node** theNodes );
 
 void makeNodes
-(
- 	node*, 
-	unsigned short ptsQty, 
-	unsigned short offset,
-	unsigned short points[ptsQty][2]
-);
+( node*, unsigned short ptsQty, unsigned short offset,
+  unsigned short points[ptsQty][2] );
 
 void linkNodes( node*, unsigned short, 
 		unsigned short, unsigned short );
 
 void findLinks ( node* );
 
-node* nodeAt( unsigned short,
-		unsigned short
-	    );
+node* nodeAt( unsigned short, unsigned short );
 
 char canSee( node*, node* );
 
