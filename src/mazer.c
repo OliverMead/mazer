@@ -28,11 +28,6 @@ unsigned short points[][2] =
 int main(void) {
 	//testNodes();
 	
-	// The layout of this test:
-	// s x n
-	// n x n
-	// x x e
-	
 	// initialise the array of nodes
 	initNodes(&nodes);
 	qty = 2;
@@ -50,22 +45,22 @@ int main(void) {
 	// make the tree with the first 2 elements of nodes, 
 	makeTree(&theTree, nodes+0, nodes+1);
 	
-	// printf("The first node is at (%i,%i)\n", theTree.start->x, theTree.start->y);
-	// printf("The size of nodes is %i\n", sizeof(nodes));
-	reallocarray(nodes, ptsQty+qty, sizeof(node) * (qty+ptsQty)); 
+	// allocate memory for all of the nodes based on the points
+	reallocarray(nodes, ptsQty+qty, sizeof(node) * (qty+ptsQty));
+	// wipe this memory
 	memset(nodes+2, 0, sizeof(node)*ptsQty);
 
-	//initNode(&nodes[2], 1, 2, 0, NULL, &nodes[4], theTree.start, NULL);
-	//initNode(&nodes[3], 1, 0, 1, theTree.start, NULL, NULL, &nodes[4]);
-	//initNode(&nodes[4], 1, 2, 1, &nodes[2], theTree.end, &nodes[3], NULL);
-	//qty = 5;
-
+	// create the nodes
 	makeNodes(nodes, ptsQty, 0, points);
+	// update the number of nodes
 	qty += ptsQty;
+	
+	// link each node to every node it can see
+	linkNodes(nodes, qty, 0, 0);
+	
 	printNodes(&nodes, qty);
-
-	printf("%i\n", canSee(&nodes[1], &nodes[4]));
-
+	
+	// assert( &nodes[1] == nodes[4].down );
 	//printf("%i\n", nodes[2].up);
 
 	return 0;
@@ -118,13 +113,45 @@ void makeNodes( node* nodes, unsigned short ptsQty,
 	makeNodes(nodes, ptsQty, offset + 1, points);
 }
 
-void linkNodes( node* nodes, unsigned short qty ) {
+void linkNodes( node* nodes, unsigned short qty, 
+		unsigned short index1, unsigned short index2 ) {
+	if (index1 == qty) { return; }
+	if (index1 != index2)
+	{
+		if (canSee(nodes + index1, nodes + index2)) {
+			if (nodes[index1].y == nodes[index2].y) { // on same row
+				if (nodes[index1].x > nodes[index2].x) { // node 1 to right
+					// not needed as accounted for by the else 
+					// condition at some point in execution
+					//nodes[index1].left = &nodes[index2];
+					//nodes[index2].right = &nodes[index1];
+				} else { // node 2 to right
+					nodes[index1].right = &nodes[index2];
+					nodes[index2].left = &nodes[index1];
+				}
+			} else { // in same column
+				if (nodes[index1].y > nodes[index2].y) { // node 2 above
+					// not needed as accounted for by the else 
+					// condition at some point in execution
+					//nodes[index1].up = &nodes[index2];
+					//nodes[index2].down = &nodes[index1];
+				} else { //node 1 above
+					nodes[index1].down = &nodes[index2];
+					nodes[index2].up = &nodes[index1];
+				}
+			} 
+		}
+	}
+	if (index2 == qty - 1) { linkNodes(nodes, qty, index1 + 1, 0); } 
+	else { linkNodes(nodes, qty, index1, index2 + 1); }
+	
 	return;
 }
 
 void findLinks( node* node ) {
 	// find all of the nodes that node can see and 
 	//printf("Finding links for node at (%u,%u)\n", node->x, node->y);
+	
 	return;
 }
 

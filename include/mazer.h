@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <assert.h>
 
 void makeTree
 (
@@ -37,7 +38,8 @@ void makeNodes
 	unsigned short points[ptsQty][2]
 );
 
-void linkNodes( node*, unsigned short );
+void linkNodes( node*, unsigned short, 
+		unsigned short, unsigned short );
 
 void findLinks ( node* );
 
