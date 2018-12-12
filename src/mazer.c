@@ -8,11 +8,19 @@ unsigned short qty;
 unsigned short start[2];
 unsigned short end[2];
 
+unsigned char layout[5][5] =
+	{{ 1,0,1,1,1 },
+	 { 1,0,1,0,1 },
+	 { 1,0,0,0,1 },
+	 { 1,0,1,0,1 },
+	 { 1,1,1,0,1 }};
+
+unsigned short ptsQty = 4;
 unsigned short points[][2] = 
-	{{ 2,0 },
-	 { 0,1 },
-	 { 2,1 }};
-unsigned short ptsQty = 3;
+	{{ 3,1 },
+	 { 1,2 },
+	 { 3,2 },
+	 { 1,3 }};
 
 int main(void) {
 	//testNodes();
@@ -27,29 +35,33 @@ int main(void) {
 	qty = 2;
 
 	// start and end points
-	start[0] =  0;
+	start[0] =  1;
 	start[1] = 0;
-	end[0] =  2;
-	end[1] = 2;
+	end[0] =  4;
+	end[1] = 5;
 	
 	// initialise the start and end points
-	initNode(&nodes[0], 0, start[0], start[1], NULL, NULL, NULL, NULL);
-	initNode(&nodes[1], 2,   end[0],   end[1], NULL, NULL, NULL, NULL);
+	initNode(nodes+0, 0, start[0], start[1], NULL, NULL, NULL, NULL);
+	initNode(nodes+1, 2,   end[0],   end[1], NULL, NULL, NULL, NULL);
 	
 	// make the tree with the first 2 elements of nodes, 
-	makeTree(&theTree, &nodes[0], &nodes[1]);
+	makeTree(&theTree, nodes+0, nodes+1);
 	
 	// printf("The first node is at (%i,%i)\n", theTree.start->x, theTree.start->y);
 	// printf("The size of nodes is %i\n", sizeof(nodes));
-	reallocarray(nodes, 5, sizeof(node) * 5); 
+	reallocarray(nodes, ptsQty+qty, sizeof(node) * (qty+ptsQty)); 
+	memset(nodes+2, 0, sizeof(node)*ptsQty);
 
 	//initNode(&nodes[2], 1, 2, 0, NULL, &nodes[4], theTree.start, NULL);
 	//initNode(&nodes[3], 1, 0, 1, theTree.start, NULL, NULL, &nodes[4]);
 	//initNode(&nodes[4], 1, 2, 1, &nodes[2], theTree.end, &nodes[3], NULL);
 	//qty = 5;
 
-	makeNodes(&nodes, ptsQty, 0, points);
+	makeNodes(nodes, ptsQty, 0, points);
+	qty += ptsQty;
 	printNodes(&nodes, qty);
+
+	printf("%i\n", nodes[2].up);
 
 	return 0;
 }
@@ -63,6 +75,7 @@ void initNode(	node* theNode, unsigned char type,
 		unsigned short x, unsigned short y,
 		node* up, node* down, 
 		node* left, node* right ) {
+	// create a node at memory location theNode
 	theNode->type = type;
 	theNode->x = x;
 	theNode->y = y;
@@ -73,6 +86,7 @@ void initNode(	node* theNode, unsigned char type,
 }
 
 void initNodes( node** theNodes ) {
+	// initialise the array of nodes for just the start and end nodes
 	char num = 2;
 	*theNodes = malloc(sizeof(node) * num);
 	if (!theNodes) {
@@ -82,27 +96,31 @@ void initNodes( node** theNodes ) {
 	memset(*theNodes, 0, sizeof(node) * num);
 }
 
-void makeNodes( node** nodesPtr, unsigned short ptsQty, 
+void makeNodes( node* nodes, unsigned short ptsQty, 
 		unsigned short offset, unsigned short points[ptsQty][2] ) {
-	printf("entering makeNodes");
-	if(offset == ptsQty-1) {
+	// function to create all of the required nodes, 
+	// memory must already be allocated for nodes
+	if(offset == ptsQty) {
 		return;
 	}
-	reallocarray(*nodesPtr, (qty+offset+1), sizeof(node)*(qty+offset+1));
-	printf("reallocated");
-
-	initNode(nodesPtr[qty+offset-1], 1, 
-			points[offset][0], 
-			points[offset][1],
+	printf("Initialising node %i\n", qty+offset+1);
+	initNode((nodes + qty+offset), 1, 
+			*(*(points + offset)+0), 
+			*(*(points + offset)+1),
 			NULL, NULL, NULL, NULL );
 
-	findLinks(nodesPtr[qty+offset-1]);
-	makeNodes(nodesPtr, ptsQty, offset + 1, points);
+	findLinks(nodes + qty+offset);
+	makeNodes(nodes, ptsQty, offset + 1, points);
 }
 
 void findLinks( node* node ) {
-	printf("Finding links for node at (%u,%u)\n", node->x, node->y);
+	// find all of the nodes that node can see and 
+	//printf("Finding links for node at (%u,%u)\n", node->x, node->y);
 	return;
+}
+
+char canSee( node* node1Ptr, node* node2Ptr ) {
+	
 }
 
 

@@ -31,13 +31,15 @@ void initNodes
 
 void makeNodes
 (
- 	node**, 
+ 	node*, 
 	unsigned short ptsQty, 
 	unsigned short offset,
 	unsigned short points[ptsQty][2]
 );
 
 void findLinks ( node* );
+
+char canSee( node*, node* );
 
 double distBetween(node*, node*);
 
