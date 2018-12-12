@@ -37,7 +37,13 @@ void makeNodes
 	unsigned short points[ptsQty][2]
 );
 
+void linkNodes( node*, unsigned short );
+
 void findLinks ( node* );
+
+node* nodeAt( unsigned short,
+		unsigned short
+	    );
 
 char canSee( node*, node* );
 

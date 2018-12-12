@@ -1,6 +1,6 @@
 IDIR = ../include
 CC=gcc
-CFLAGS=-I$(IDIR)
+CFLAGS=-I$(IDIR) -Wno-implicit-function-declaration
 
 ODIR=obj
 LDIR =../lib

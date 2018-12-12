@@ -8,6 +8,7 @@ unsigned short qty;
 unsigned short start[2];
 unsigned short end[2];
 
+//		    [y][x]
 unsigned char layout[5][5] =
 	{{ 1,0,1,1,1 },
 	 { 1,0,1,0,1 },
@@ -16,6 +17,8 @@ unsigned char layout[5][5] =
 	 { 1,1,1,0,1 }};
 
 unsigned short ptsQty = 4;
+
+//	 { x,y }
 unsigned short points[][2] = 
 	{{ 3,1 },
 	 { 1,2 },
@@ -37,8 +40,8 @@ int main(void) {
 	// start and end points
 	start[0] =  1;
 	start[1] = 0;
-	end[0] =  4;
-	end[1] = 5;
+	end[0] =  3;
+	end[1] = 4;
 	
 	// initialise the start and end points
 	initNode(nodes+0, 0, start[0], start[1], NULL, NULL, NULL, NULL);
@@ -61,7 +64,9 @@ int main(void) {
 	qty += ptsQty;
 	printNodes(&nodes, qty);
 
-	printf("%i\n", nodes[2].up);
+	printf("%i\n", canSee(&nodes[1], &nodes[4]));
+
+	//printf("%i\n", nodes[2].up);
 
 	return 0;
 }
@@ -113,14 +118,75 @@ void makeNodes( node* nodes, unsigned short ptsQty,
 	makeNodes(nodes, ptsQty, offset + 1, points);
 }
 
+void linkNodes( node* nodes, unsigned short qty ) {
+	return;
+}
+
 void findLinks( node* node ) {
 	// find all of the nodes that node can see and 
 	//printf("Finding links for node at (%u,%u)\n", node->x, node->y);
 	return;
 }
 
-char canSee( node* node1Ptr, node* node2Ptr ) {
-	
+node* nodeAt( unsigned short x, unsigned short y ) {
+	printf("checking for node at (%i,%i)\n", x, y);
+	for (int i = 0; i < qty; i++) {
+		if ( nodes[i].x == x && nodes[i].y == y ) {
+			return nodes+i;
+		}
+	}
+	printf("no node at (%i,%i)\n", x, y);
+	return NULL;
+}
+
+char canSee( node* node1, node* node2 ) {
+	//printf("node1 at (%i,%i)\n", node1->x, node1->y);
+	//printf("node2 at (%i,%i)\n", node2->x, node2->y);
+	if (node1->x == node2->x) {
+		//printf("Layout[4][3] = %i\n", layout[4][3]);
+		int y;
+		int end;
+		
+		if (node1->y > node2->y) {
+			y = node2->y ;
+			end = node1->y;
+		} else { 
+			y = node1->y; 
+			end = node2->y;
+		}
+		//printf("end = %i\n", end);
+		
+		for (y++; y <end ; y++) {
+			//printf("y = %i\n", y);
+			if ( layout[y][(node1->x)] == 1 || nodeAt(node1->x,y) != NULL ) {
+				//printf("oopx\n");
+				return 0;
+			} 
+		}
+		return 1;
+	} else if (node1->y == node2->y) {
+		int x;
+		int end;
+		
+		if (node1->x > node2->x) {
+			x = node2->x;
+			end = node1->x;
+		} else {
+			x = node1->x;
+			end = node2->x;
+		}
+		
+		for (x++; x<end; x++) {
+			if ( layout[node1->y][x] == 1 || nodeAt(x,node1->y) != NULL ) {
+				//printf("oopy");
+				return 0;
+			}
+		}
+		return 1;
+	} else {
+		//printf("oop");
+		return 0;
+	}
 }
 
 
