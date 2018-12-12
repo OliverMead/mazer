@@ -43,10 +43,10 @@ int main(void) {
 	// printf("The size of nodes is %i\n", sizeof(nodes));
 	reallocarray(nodes, 5, sizeof(node) * 5); 
 
-	initNode(&nodes[2], 1, 2, 0, NULL, &nodes[4], theTree.start, NULL);
-	initNode(&nodes[3], 1, 0, 1, theTree.start, NULL, NULL, &nodes[4]);
-	initNode(&nodes[4], 1, 2, 1, &nodes[2], theTree.end, &nodes[3], NULL);
-	qty = 5;
+	//initNode(&nodes[2], 1, 2, 0, NULL, &nodes[4], theTree.start, NULL);
+	//initNode(&nodes[3], 1, 0, 1, theTree.start, NULL, NULL, &nodes[4]);
+	//initNode(&nodes[4], 1, 2, 1, &nodes[2], theTree.end, &nodes[3], NULL);
+	//qty = 5;
 
 	makeNodes(&nodes, ptsQty, 0, points);
 	printNodes(&nodes, qty);
@@ -84,21 +84,24 @@ void initNodes( node** theNodes ) {
 
 void makeNodes( node** nodesPtr, unsigned short ptsQty, 
 		unsigned short offset, unsigned short points[ptsQty][2] ) {
-	if(offset == ptsQty) {
+	printf("entering makeNodes");
+	if(offset == ptsQty-1) {
 		return;
 	}
-	reallocarray(*nodesPtr, (qty+offset), sizeof(node)*(qty+offset));
+	reallocarray(*nodesPtr, (qty+offset+1), sizeof(node)*(qty+offset+1));
+	printf("reallocated");
 
-	initNode(nodesPtr[qty+offset], 1, 
+	initNode(nodesPtr[qty+offset-1], 1, 
 			points[offset][0], 
 			points[offset][1],
 			NULL, NULL, NULL, NULL );
 
-	findLinks(nodesPtr[qty+offset]);
+	findLinks(nodesPtr[qty+offset-1]);
 	makeNodes(nodesPtr, ptsQty, offset + 1, points);
 }
 
 void findLinks( node* node ) {
+	printf("Finding links for node at (%u,%u)\n", node->x, node->y);
 	return;
 }
 
