@@ -1,5 +1,6 @@
 #include <types.h>
 #include <mazer.h>
+#include <globals.h>
 #include <test.h>
 
 node* nodes;
