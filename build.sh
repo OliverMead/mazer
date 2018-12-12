@@ -1,5 +1,3 @@
-#!/bin/bash
-
 cd src
 make $1
 cd ..
