@@ -13,4 +13,6 @@ extern unsigned short ptsQty;
 
 extern unsigned short points[][2];
 
+extern direction* path;
+
 #endif
