@@ -2,6 +2,7 @@
 #define NODE_TYPES_HEADER
 
 typedef struct Matrix matrix;
+typedef enum{Up, Down, Left, Right} direction;
 typedef struct Node node;
 typedef struct Tree tree;
 

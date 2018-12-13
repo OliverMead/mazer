@@ -25,3 +25,5 @@ unsigned short points[][2] =
 	 { 3,2 },
 	 { 1,3 }};
 
+direction* path;
+
