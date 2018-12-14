@@ -15,4 +15,8 @@ extern unsigned short points[][2];
 
 extern direction* path;
 
+#ifndef NDEBUG
+extern direction* truePath;
+#endif
+
 #endif

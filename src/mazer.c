@@ -45,6 +45,8 @@ int main(void) {
 
 	assert( theTree.start->down == nodes + 3 );
 
+	assert( path == truePath );
+
 	return 0;
 }
 
