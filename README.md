@@ -1,4 +1,6 @@
 # mazer
+(Currently on hold while I learn Haskell; when I am more comfortable with Haskell I may start
+this project again with Haskell rather than C)
 ## About
 For solving mazes based upon nodes of junctions
 
