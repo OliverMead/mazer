@@ -1,6 +1,6 @@
 # mazer
-(Currently on hold while I learn Haskell; when I am more comfortable with Haskell I may start
-this project again with Haskell rather than C)
+Currently not planned to be continued as I am starting again in Haskell at
+[OliverMead/mazer-hs](https://github.com/OliverMead/mazer-hs)
 ## About
 For solving mazes based upon nodes of junctions
 
